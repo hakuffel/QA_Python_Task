@@ -2,16 +2,12 @@ import requests
 import json
 from typesettings import Gender
 
-#response = requests.get('https://akabab.github.io/superhero-api/api/all.json')
-#response_pretty = json.dumps(response.json(), indent = 4)
-#response = requests.get('https://akabab.github.io/superhero-api/api//id/999.json')
-#print(response.status_code)
 def load_heroes():
     response = requests.get('https://akabab.github.io/superhero-api/api/all.json')
     json_data = response.json()
     return json_data
 
-def filtered_gender_and_work(gender: str, check: bool):
+def filtered_gender_and_work(gender: Gender, check: bool):
     heroes = load_heroes()
     valid_gender = {genders.value for genders in Gender}
     if gender not in valid_gender:
@@ -19,7 +15,7 @@ def filtered_gender_and_work(gender: str, check: bool):
             f"Недопустимое значение пола: '{gender}'. "
             f"Допустимые значения: {', '.join(valid_gender)}"
         )
-    if isinstance(check, bool) == False:
+    if not isinstance(check, bool):
         raise ValueError(
             "Параметр check должен быть True/False"
         )
@@ -39,7 +35,7 @@ def get_height_cm(hero: dict):
     else:
         return int(height_str.split()[0])
 
-def tallest_hero_information(gender: str, check: bool):
+def tallest_hero_information(gender: Gender, check: bool):
     heroes = filtered_gender_and_work(gender, check)
     tallest_hero = max(heroes, key=get_height_cm)
     tallest_hero = tallest_hero['id']
@@ -49,5 +45,6 @@ def tallest_hero_information(gender: str, check: bool):
 def main():
   result = tallest_hero_information("Female", True)
   print(json.dumps(result, indent=4))
+
 if __name__ == "__main__":
     main()
