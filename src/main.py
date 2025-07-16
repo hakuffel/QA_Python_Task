@@ -1,6 +1,6 @@
 import requests
 import json
-from typesettings import Gender
+from .typesettings import Gender
 
 def load_heroes():
     response = requests.get('https://akabab.github.io/superhero-api/api/all.json')
@@ -42,9 +42,5 @@ def tallest_hero_information(gender: Gender, check: bool):
     hero_information = requests.get(f'https://akabab.github.io/superhero-api/api/id/{tallest_hero}.json')
     return hero_information.json()
 
-def main():
-  result = tallest_hero_information("Female", True)
-  print(json.dumps(result, indent=4))
-
 if __name__ == "__main__":
-    main()
+    print(json.dumps(tallest_hero_information("-", True), indent=4))
