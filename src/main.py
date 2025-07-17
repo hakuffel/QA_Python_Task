@@ -20,7 +20,7 @@ def filtered_gender_and_work(gender: Gender, check: bool):
             "Параметр check должен быть True/False"
         )
     filtered_gender = [item for item in heroes if item['appearance']['gender'] == gender]
-    if check == True:
+    if check:
         filter_both = [item for item in filtered_gender if item['work']['occupation'] != '-' or item['work']['base'] != '-']
     else:
         filter_both = [item for item in filtered_gender if item['work']['occupation'] == '-' and item['work']['base'] == '-']

@@ -1,6 +1,5 @@
 import pytest
 from src.main import filtered_gender_and_work, get_height_cm, tallest_hero_information
-from src.typesettings import Gender
 
 def test_filter_female_with_work():
     result = filtered_gender_and_work("Female", True)
