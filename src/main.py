@@ -1,6 +1,6 @@
 import requests
 import json
-from .typesettings import Gender
+from src.typesettings import Gender
 
 def load_heroes():
     response = requests.get('https://akabab.github.io/superhero-api/api/all.json')
