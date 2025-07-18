@@ -3,7 +3,7 @@ from src.main import filtered_gender_and_work, get_height_cm, tallest_hero_infor
 
 
 @pytest.mark.positive
-def test_filter_female_with_work():
+def test_filter_female_with_work(mock_requests):
     result = filtered_gender_and_work("Female", True)
     assert len(result) > 0
     for hero in result:
@@ -12,7 +12,7 @@ def test_filter_female_with_work():
 
 
 @pytest.mark.positive
-def test_filter_male_without_work():
+def test_filter_male_without_work(mock_requests):
     result = filtered_gender_and_work("Male", False)
     for hero in result:
         assert hero["appearance"]["gender"] == "Male"
@@ -21,7 +21,7 @@ def test_filter_male_without_work():
 
 
 @pytest.mark.positive
-def test_unknown_without_work():
+def test_unknown_without_work(mock_requests):
     result = filtered_gender_and_work("-", False)
     for hero in result:
         assert hero["appearance"]["gender"] == "-"
@@ -30,7 +30,7 @@ def test_unknown_without_work():
 
 
 @pytest.mark.positive
-def test_unknown_with_work():
+def test_unknown_with_work(mock_requests):
     result = filtered_gender_and_work("-", True)
     for hero in result:
         assert hero["appearance"]["gender"] == "-"
@@ -38,54 +38,54 @@ def test_unknown_with_work():
 
 
 @pytest.mark.negative
-def test_invalid_gender():
+def test_invalid_gender(mock_requests):
     with pytest.raises(ValueError):
         filtered_gender_and_work("Invalid", True)
 
 
 @pytest.mark.negative
-def test_invalid_check_work():
+def test_invalid_check_work(mock_requests):
     with pytest.raises(ValueError):
         filtered_gender_and_work("Male", "pupupu")
 
 
 @pytest.mark.positive
-def test_get_height_cm():
+def test_get_height_cm(mock_requests):
     hero_cm = {"appearance": {"height": ["6'0", "180 cm"]}}
     assert get_height_cm(hero_cm) == 180
 
 
 @pytest.mark.positive
-def test_get_height_cm_if_meters():
+def test_get_height_cm_if_meters(mock_requests):
     hero_meters = {"appearance": {"height": ["5'5", "1.65 meters"]}}
     assert get_height_cm(hero_meters) == 165
 
 
 @pytest.mark.positive
-def test_tallest_hero_female():
+def test_tallest_hero_female(mock_request_id):
     result = tallest_hero_information("Female", True)
     assert result["appearance"]["gender"] == "Female"
 
 
 @pytest.mark.positive
-def test_tallest_hero_male():
+def test_tallest_hero_male(mock_request_id):
     result = tallest_hero_information("Male", True)
     assert result["appearance"]["gender"] == "Male"
 
 
 @pytest.mark.positive
-def test_tallest_hero_unknown():
+def test_tallest_hero_unknown(mock_request_id):
     result = tallest_hero_information("-", True)
     assert result["appearance"]["gender"] == "-"
 
 
 @pytest.mark.negative
-def test_tallest_hero_none_gender():
+def test_tallest_hero_none_gender(mock_request_id):
     with pytest.raises(ValueError):
         tallest_hero_information(None, True)
 
 
 @pytest.mark.negative
-def test_tallest_hero_none_work():
+def test_tallest_hero_none_work(mock_request_id):
     with pytest.raises(ValueError):
         tallest_hero_information("Male", None)
