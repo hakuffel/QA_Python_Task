@@ -2,11 +2,16 @@ import pytest
 import json
 
 import requests_mock
+from pathlib import Path
 
 
 @pytest.fixture()
 def mock_hero():
-    with open("data_heroes_dump.json") as hero:
+    project_root = Path(__file__).parent
+    data_path = project_root / "tests" / "data_heroes_dump.json"
+    if not data_path.exists():
+        data_path = Path("data_heroes_dump.json")
+    with open(data_path) as hero:
         return json.load(hero)
 
 
